@@ -21,6 +21,6 @@ public class ClientShould {
 
         assertThat(outputStream.toString(),
                 is("Line from point A(" + 10 + ";" + 20 + "), to point B(" + 30 + ";" + 60 + ")\n" +
-                        "Rectangle with coordinate left-down point (" + 30 + ";" + 60 + "), width: 40, height: 40\n"));
+                        "Rectangle with coordinate left-down point (" + 30 + ";" + 60 + "), width: 20, height: 40\n"));
     }
 }
