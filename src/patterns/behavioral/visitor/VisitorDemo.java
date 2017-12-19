@@ -1,85 +1,73 @@
 package patterns.behavioral.visitor;
 
-interface Element {
+interface Restaurant {
     void accept(Visitor v);
+    String getMenu();
 }
 
-class FOO implements Element {
+class ItalyRestaurant implements Restaurant {
     public void accept(Visitor v) {
         v.visit(this);
     }
 
-    public String getFOO() {
-        return "FOO";
+    @Override
+    public String getMenu() {
+        return "Italy Menu";
     }
 }
 
-class BAR implements Element {
+class JapanRestaurant implements Restaurant {
     public void accept(Visitor v) {
         v.visit(this);
     }
 
-    public String getBAR() {
-        return "BAR";
+    @Override
+    public String getMenu() {
+        return "Japan Menu";
     }
 }
 
-class BAZ implements Element {
+class RussianRestaurant implements Restaurant {
     public void accept(Visitor v) {
         v.visit(this);
     }
 
-    public String getBAZ() {
-        return "BAZ";
+    @Override
+    public String getMenu() {
+        return "Russian Menu";
     }
 }
 
 interface Visitor {
-    void visit(FOO foo);
-
-    void visit(BAR bar);
-
-    void visit(BAZ baz);
+    void visit(Restaurant restaurant);
 }
 
-class UpVisitor implements Visitor {
-    public void visit(FOO foo) {
-        System.out.println("do Up on " + foo.getFOO());
-    }
-
-    public void visit(BAR bar) {
-        System.out.println("do Up on " + bar.getBAR());
-    }
-
-    public void visit(BAZ baz) {
-        System.out.println("do Up on " + baz.getBAZ());
+class Vegetarian implements Visitor {
+    public void visit(Restaurant italyRestaurant) {
+        System.out.println("Vegetarian " + italyRestaurant.getMenu());
     }
 }
 
-class DownVisitor implements Visitor {
-    public void visit(FOO foo) {
-        System.out.println("do Down on " + foo.getFOO());
-    }
-
-    public void visit(BAR bar) {
-        System.out.println("do Down on " + bar.getBAR());
-    }
-
-    public void visit(BAZ baz) {
-        System.out.println("do Down on " + baz.getBAZ());
+class MeatEater implements Visitor {
+    public void visit(Restaurant italyRestaurant) {
+        System.out.println("Meat " + italyRestaurant.getMenu());
     }
 }
 
 public class VisitorDemo {
     public static void main(String[] args) {
-        Element[] list = {new FOO(), new BAR(), new BAZ()};
-        UpVisitor up = new UpVisitor();
-        DownVisitor down = new DownVisitor();
-        for (Element element : list) {
-            element.accept(up);
-        }
-        for (Element element : list) {
-            element.accept(down);
-        }
+        Restaurant[] restaurants = {
+                new ItalyRestaurant(),
+                new JapanRestaurant(),
+                new RussianRestaurant()
+        };
+        Vegetarian vegetarian = new Vegetarian();
+        MeatEater meatEater = new MeatEater();
+
+        for (Restaurant restaurant : restaurants)
+            restaurant.accept(vegetarian);
+
+        for (Restaurant restaurant : restaurants)
+            restaurant.accept(meatEater);
     }
 }
